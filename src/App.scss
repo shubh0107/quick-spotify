@@ -1,0 +1,13 @@
+.main-container {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  
+  .login-button {
+    padding: 10px;
+    color: green;
+    font-weight: bold;
+  }
+}
