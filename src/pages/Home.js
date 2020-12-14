@@ -52,6 +52,9 @@ const Home = props => {
           setTopTracks(res);
         }).catch(err => {
           console.log('error: ', err);
+          if (err.status === 401) {
+            setAccessToken('');
+          }
         })
     }
   }, [accessToken, history, spotify])
@@ -82,8 +85,7 @@ const TopSongs = ({ tracks }) => {
   }
 
   function stopAudio(url) {
-    // currentAudio.current.pause();
-    currentAudio.current.play();
+    currentAudio.current.pause();
   }
 
 
