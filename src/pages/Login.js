@@ -42,14 +42,14 @@ const Login = props => {
         console.log('ERROR: ', parsedUrl.error);
       } else {
         let accessToken = parsedUrl.access_token;
-        const spotify = new SpotifySerivce(accessToken);
+        // const spotify = new SpotifySerivce(accessToken);
         setAccessToken(accessToken);
-        spotify.spotifyApi.getMe().then(res => {
-          setUserData(res);
-          console.log('user data: ', res);
-        }).catch(err => {
-          console.log('error: ', err);
-        })
+        // spotify.spotifyApi.getMe().then(res => {
+        //   setUserData(res);
+        //   console.log('user data: ', res);
+        // }).catch(err => {
+        //   console.log('error: ', err);
+        // })
         // ACCESS_TOKEN_QUERY.code = code;
         // if (accessToken === '') {
         //   getAccessToken(ACCESS_TOKEN_QUERY)

@@ -54,8 +54,8 @@ export const AUTHORIZATION_QUERY_2 = {
   response_type: 'token',
   redirect_uri: REDIRECT_URI,
   state: STATE,
-  scope: ALL_SCOPES,
-  show_dialog: false
+  scope: ALL_SCOPES.join(' '),
+  show_dialog: true
 };
 
 export const ACCESS_TOKEN_QUERY = {
