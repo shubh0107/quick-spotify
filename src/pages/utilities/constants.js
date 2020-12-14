@@ -5,8 +5,39 @@ export const REDIRECT_URI = 'http://localhost:3000/';
 export const STATE = 'shubham0107';
 
 export const ACCESS_TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
-
 export const AUTHORIZATION_URL = 'https://accounts.spotify.com/authorize';
+export const SCOPES = [
+  'user-read-recently-played',
+  'app-remote-control',
+  'streaming',
+  'user-read-email',
+  'user-read-private',
+  'user-top-read'
+];
+
+export const ALL_SCOPES = [
+  'ugc-image-upload',
+  'user-read-recently-played',
+  'user-top-read',
+  'user-read-playback-position',
+  'user-read-playback-state',
+  'user-modify-playback-state',
+  'user-read-currently-playing',
+  'app-remote-control',
+  'streaming',
+  'playlist-modify-public',
+  'playlist-modify-private',
+  'playlist-read-private',
+  'playlist-read-collaborative',
+  'user-follow-modify',
+  'user-follow-read',
+  'user-library-modify',
+  'user-library-read',
+  'user-read-email',
+  'user-read-private'
+];
+
+// for PKCE flow
 export const AUTHORIZATION_QUERY = {
   client_id: CLIENT_ID,
   response_type: 'code',
@@ -14,13 +45,17 @@ export const AUTHORIZATION_QUERY = {
   code_challenge_method: 'S256',
   code_challenge: CODE_CHALLENGE,
   state: STATE,
-  scope: [
-    'user-read-recently-played',
-    'app-remote-control',
-    'streaming',
-    'user-read-email',
-    'user-read-private'
-  ]
+  scope: ALL_SCOPES
+};
+
+// for implicit grant
+export const AUTHORIZATION_QUERY_2 = {
+  client_id: CLIENT_ID,
+  response_type: 'token',
+  redirect_uri: REDIRECT_URI,
+  state: STATE,
+  scope: ALL_SCOPES,
+  show_dialog: false
 };
 
 export const ACCESS_TOKEN_QUERY = {
