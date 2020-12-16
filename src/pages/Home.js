@@ -59,20 +59,20 @@ const Home = props => {
     }
   }, [accessToken, history, spotify, setAccessToken])
 
-  if (!topTracks) {
-    return <div>Loading....</div>
-  }
-
 
   // function setCurrentTrack(track) {
   //   console.log('setting track: ', track)
   //   currentTrack.current = track;
   // }
 
-  if (topTracks) {
-    return <div className="h-screen grid grid-cols-2 gap-4 place-items-auto bg-black text-white p-10">
+  if (!topTracks) {
+    return <div className="h-screen bg-black text-white text-center">Loading....</div>
+  }
 
-      <div className="max-h-screen overflow-y-auto">
+  if (topTracks) {
+    return <div className="h-screen grid grid-cols-2 place-items-auto bg-black text-white p-10">
+
+      <div className="max-h-screen overflow-y-auto px-5 -mx-5">
         <h3 className="mb-2">Last Month</h3>
         <TopSongs tracks={topTracks[0].items} setCurrentTrack={setCurrentTrack} />
         <h3 className="mb-2">Last 6 Months</h3>
@@ -97,7 +97,6 @@ const TopSongs = ({ tracks, setCurrentTrack }) => {
   function playAudio(track) {
     setCurrentTrack(track);
     let { preview_url } = track;
-    currentAudio.current.pause();
     currentAudio.current = new Audio(preview_url);
     currentAudio.current.muted = false;
     currentAudio.current.play();
@@ -105,6 +104,7 @@ const TopSongs = ({ tracks, setCurrentTrack }) => {
 
   function stopAudio(url) {
     currentAudio.current.pause();
+    // setCurrentTrack(null)
   }
 
   return (
@@ -115,16 +115,11 @@ const TopSongs = ({ tracks, setCurrentTrack }) => {
         return (
           <div
             key={id}
-            // className="z-10 hover:opacity-95 transform ease-in-out transition hover:scale-150 hover:z-20"
-            className="z-0 transform ease-in-out transition hover:scale-150 hover:z-20"
+            className="z-0 transform ease-in-out transition hover:scale-150 hover:z-20 hover:shadow-lg"
             onMouseEnter={e => playAudio(track)}
             onMouseLeave={e => stopAudio(track)}
           >
-            {/* <div className=""
-              
-            > */}
-            <img src={images[2].url} alt="song-img" />
-            {/* </div> */}
+            <img src={images[0].url} alt="song-img" />
           </div>
         )
       })}
@@ -138,10 +133,9 @@ const TrackPreview = ({ track }) => {
   if (track) {
     const { name, album } = track;
     const { images } = album;
-    return <div className="m-20">
+    return <div className="m-20 mb-0">
       <div className="">
         <img src={images[0].url} alt={name} />
-        {/* <img src={"https://i.scdn.co/image/ab67616d0000b27383c726c3768d0981c76acd38"} alt={name} /> */}
       </div>
       <h2 className="text-2xl mt-2 leading-tight">{name}</h2>
       <h3 className="text-sm italic">{album.name}</h3>
