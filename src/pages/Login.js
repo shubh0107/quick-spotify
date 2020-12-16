@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { parse, parseUrl, stringifyUrl, stringify } from 'query-string';
-
-import SpotifySerivce from '../SpotifyService';
-import useLocalStorage from '../hooks/useLocalStorage';
+import { useHistory } from 'react-router-dom';
+import { parse, stringifyUrl, stringify } from 'query-string';
 import {
   AUTHORIZATION_URL,
-  AUTHORIZATION_QUERY,
   STATE,
-  ACCESS_TOKEN_QUERY,
   ACCESS_TOKEN_ENDPOINT,
   AUTHORIZATION_QUERY_2
 } from './utilities/constants';
-import { Redirect, useHistory } from 'react-router-dom';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { Button } from '../components';
 
 
 const Login = props => {
@@ -81,14 +78,14 @@ const Login = props => {
 
   if (accessToken === '') {
     return (
-      <div className="main-container" >
-        <button className="login-button" onClick={callSpotifyAuthApi}>
+      <div className="h-screen flex items-center justify-center bg-black">
+        <Button onClick={callSpotifyAuthApi}>
           Login
-        </button>
+        </Button>
       </div >
     )
   } else {
-    return <div className="main-container">
+    return <div className="">
       {JSON.stringify(userData, undefined, 2)}
     </div>
   }
