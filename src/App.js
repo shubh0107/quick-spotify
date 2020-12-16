@@ -7,14 +7,16 @@ import Home from './pages/Home';
 
 function App() {
   return (
-    <Router>
-      <Route exact path="/">
-        <Login />
-      </Route>
-      <Route exact path="/home">
-        <Home />
-      </Route>
-    </Router>
+    <div className="antialiased">
+      <Router>
+        <Route exact path="/">
+          <Login />
+        </Route>
+        <Route exact path="/home">
+          <Home />
+        </Route>
+      </Router>
+    </div>
   )
 }
 

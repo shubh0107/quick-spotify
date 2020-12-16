@@ -31,7 +31,7 @@ const Home = props => {
       let promise2 = spotify.current.spotifyApi.getMyTopTracks({
         limit: 50,
         time_range: 'medium_term',
-        offset: 0
+        offset: 0,
       });
       let promise3 = spotify.current.spotifyApi.getMyTopTracks({
         limit: 50,
@@ -65,6 +65,11 @@ const Home = props => {
   //   currentTrack.current = track;
   // }
 
+
+  function getTrackDetails(trackId) {
+    return spotify.current.spotifyApi.getTrack(trackId);
+  }
+
   if (!topTracks) {
     return <div className="h-screen bg-black text-white text-center">Loading....</div>
   }
@@ -74,11 +79,11 @@ const Home = props => {
 
       <div className="max-h-screen overflow-y-auto px-5 -mx-5">
         <h3 className="mb-2">Last Month</h3>
-        <TopSongs tracks={topTracks[0].items} setCurrentTrack={setCurrentTrack} />
+        <TopSongs tracks={topTracks[0].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
         <h3 className="mb-2">Last 6 Months</h3>
-        <TopSongs tracks={topTracks[1].items} setCurrentTrack={setCurrentTrack} />
+        <TopSongs tracks={topTracks[1].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
         <h3 className="mb-2">All Time</h3>
-        <TopSongs tracks={topTracks[2].items} setCurrentTrack={setCurrentTrack} />
+        <TopSongs tracks={topTracks[2].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
       </div>
 
       <div className="max-h-screen">
@@ -90,21 +95,31 @@ const Home = props => {
 
 
 
-const TopSongs = ({ tracks, setCurrentTrack }) => {
+const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
   console.log('rendering TOP SONGS:');
   const currentAudio = useRef(null);
 
   function playAudio(track) {
     setCurrentTrack(track);
-    let { preview_url } = track;
-    currentAudio.current = new Audio(preview_url);
-    currentAudio.current.muted = false;
-    currentAudio.current.play();
+    let { id, preview_url } = track;
+    if (preview_url) {
+      currentAudio.current = new Audio(preview_url);
+      currentAudio.current.play();
+    } else {
+      getTrackDetails(`${id}?market=from_token`).then(trackDetails => {
+        console.log('track data: ', trackDetails);
+        // setCurrentTrack(trackDetails);
+        currentAudio.current = new Audio(trackDetails.preview_url);
+        currentAudio.current.play();
+      }).catch(err => {
+        console.log('error: ', err);
+      })
+    }
   }
 
   function stopAudio(url) {
     currentAudio.current.pause();
-    // setCurrentTrack(null)
+    setCurrentTrack(null)
   }
 
   return (
@@ -131,14 +146,22 @@ const TopSongs = ({ tracks, setCurrentTrack }) => {
 const TrackPreview = ({ track }) => {
   // console.log('track preview: ', track)
   if (track) {
-    const { name, album } = track;
+    const { name, album, artists } = track;
     const { images } = album;
+    const artistName = artists.reduce(((completeName, artist, index) => {
+      if (index === artists.length - 1 && artists.length > 1) {
+        completeName += ' & ';
+      } else {
+        completeName += index !== 0 ? ', ' : '';
+      }
+      return completeName += ` ${artist.name}`
+    }), '');
     return <div className="m-20 mb-0">
       <div className="">
         <img src={images[0].url} alt={name} />
       </div>
       <h2 className="text-2xl mt-2 leading-tight">{name}</h2>
-      <h3 className="text-sm italic">{album.name}</h3>
+      <h3 className="text-sm italic">{artistName}</h3>
     </div>
   }
 
