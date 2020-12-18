@@ -78,7 +78,7 @@ const Login = props => {
 
   if (accessToken === '') {
     return (
-      <div className="h-screen flex items-center justify-center bg-black">
+      <div className="h-screen flex items-center justify-center bg-gray-900 login-bg">
         <Button onClick={callSpotifyAuthApi}>
           Login
         </Button>
