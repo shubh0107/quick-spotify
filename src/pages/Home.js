@@ -61,9 +61,10 @@ const Home = props => {
   }
 
   if (topTracks) {
-    return <div className="h-full grid grid-cols-2 place-items-auto bg-gray-900 text-white p-10">
+    // return <div className="h-full grid grid-cols-2 place-items-auto bg-gray-900 text-white p-10">
+    return <div className="min-h-screen h-full flex justify-between bg-gray-900 text-white p-10">
 
-      <div className="px-5 -mx-5">
+      <div className="pt-2 px-5 -mx-5 w-1/2">
         <h3 className="mb-2 initial-click">Last Month</h3>
         <TopSongs tracks={topTracks[0].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
         <h3 className="mb-2">Last 6 Months</h3>
@@ -72,12 +73,12 @@ const Home = props => {
         <TopSongs tracks={topTracks[2].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
       </div>
 
-      <div className="">
+      <div className="w-1/2">
         {currentTrack ? <TrackPreview track={currentTrack} getTrackDetails={getTrackDetails} accessToken={accessToken} /> : ''}
       </div>
-      <div>
+      {/* <div> */}
         {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
-      </div>
+      {/* </div> */}
       {/* <Modal visible={true} /> */}
     </div>
   }
@@ -119,11 +120,11 @@ const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
 
   function stopAudio(url) {
     // currentAudio.current.pause();
-    setCurrentTrack(null)
+    // setCurrentTrack(null)
   }
 
   return (
-    <div className="grid grid-cols-10 mb-5">
+    <div className="grid grid-cols-5 lg:grid-cols-10 mb-5">
       {tracks.map(track => {
         const { id, name, album } = track;
         const { images } = album;
@@ -206,7 +207,7 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
       }
       return completeName += ` ${artist.name}`
     }), '');
-    return <div className="sticky top-20 m-20 mb-0">
+    return <div className="sticky top-1/4 lg:top-20 md:m-2 lg:m-10 float-right lg:my-0">
       <div className="">
         <img src={images[0].url} alt={name} />
       </div>
