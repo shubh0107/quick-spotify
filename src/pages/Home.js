@@ -120,7 +120,7 @@ const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
 
   function stopAudio(url) {
     // currentAudio.current.pause();
-    // setCurrentTrack(null)
+    setCurrentTrack(null)
   }
 
   return (
