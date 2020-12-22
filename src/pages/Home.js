@@ -7,6 +7,8 @@ import './Home.scss';
 import { Button } from '../components';
 import { Modal } from '../components';
 
+import { useTransition, useSpring, animated } from 'react-spring';
+
 const Home = props => {
 
   let history = useHistory();
@@ -77,7 +79,7 @@ const Home = props => {
         {currentTrack ? <TrackPreview track={currentTrack} getTrackDetails={getTrackDetails} accessToken={accessToken} /> : ''}
       </div>
       {/* <div> */}
-        {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
+      {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
       {/* </div> */}
       {/* <Modal visible={true} /> */}
     </div>
@@ -123,20 +125,26 @@ const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
     setCurrentTrack(null)
   }
 
+  const transitions = useTransition(tracks, track => track.id, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 }
+  })
+
   return (
     <div className="grid grid-cols-5 lg:grid-cols-10 mb-5">
-      {tracks.map(track => {
-        const { id, name, album } = track;
+      {transitions.map(({ item, props, key }) => {
+        const { id, name, album } = item;
         const { images } = album;
         return (
-          <div
-            key={id}
+          <animated.div
+            style={props}
+            key={key}
             className="z-0 transform ease-in-out transition hover:scale-150 hover:z-20 hover:shadow-lg"
-            onMouseEnter={e => playAudio(track)}
-            onMouseLeave={e => stopAudio(track)}
+            onMouseEnter={e => playAudio(item)}
+            onMouseLeave={e => stopAudio(item)}
           >
             <img src={images[0].url} alt="song-img" />
-          </div>
+          </animated.div>
         )
       })}
     </div>
@@ -164,7 +172,7 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
         axios.get(`https://api.spotify.com/v1/tracks/${id}?market=from_token`, {
           headers: { 'Authorization': `Bearer ${accessToken}` },
           cancelToken: source.token
-        }).then(({data}) => {
+        }).then(({ data }) => {
           console.log('playng audio: ', data);
           if (data.preview_url) {
             playAudio(data.preview_url);
@@ -195,6 +203,22 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
     }
   }, [id, preview_url, getTrackDetails, accessToken, source]);
 
+  const fadeIn = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    config: {
+      duration: 300
+    }
+  })
+
+  const fadeOut = useSpring({
+    from: { opacity: 1 },
+    to: { opacity: 0 },
+    config: {
+      duration: 300
+    }
+  })
+
 
   if (track) {
     const { name, album, artists } = track;
@@ -209,10 +233,10 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
     }), '');
     return <div className="sticky top-1/4 lg:top-20 md:m-2 lg:m-10 float-right lg:my-0">
       <div className="">
-        <img src={images[0].url} alt={name} />
+        <animated.img src={images[0].url} alt={name} style={fadeIn} />
       </div>
-      <h2 className="text-2xl mt-2 leading-tight">{name}</h2>
-      <h3 className="text-sm italic">{artistName}</h3>
+      <animated.h2 className="text-2xl mt-2 leading-tight" style={fadeIn}>{name}</animated.h2>
+      <animated.h3 className="text-sm italic" style={fadeIn}>{artistName}</animated.h3>
     </div>
   }
 
