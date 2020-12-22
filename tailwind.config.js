@@ -7,6 +7,21 @@ module.exports = {
   variants: {
     extend: {
       zIndex: ['hover'],
+      keyframes: {
+        'fade-in': {
+          '0%': {
+            opacity: 0
+          },
+          '50%': {
+            opacity: 0.5
+          },
+          '100%': {
+            opacity: 1
+          },
+
+
+        }
+      }
     },
   },
   plugins: [],
