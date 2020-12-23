@@ -4,8 +4,10 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { useHistory } from 'react-router-dom';
 import SpotifyService from '../SpotifyService';
 import './Home.scss';
-import { Button } from '../components';
-import { Modal } from '../components';
+// import { Button } from '../components';
+// import { Modal } from '../components';
+
+import { Header } from '../components';
 
 import { useTransition, useSpring, animated } from 'react-spring';
 
@@ -64,32 +66,35 @@ const Home = props => {
 
   if (topTracks) {
     // return <div className="h-full grid grid-cols-2 place-items-auto bg-gray-900 text-white p-10">
-    return <div className="min-h-screen h-full flex justify-between bg-gray-900 text-white p-10">
+    return (
+      <div>
+        <Header />
+        <div className="min-h-screen h-full flex justify-between bg-gray-900 text-white px-10 pb-10">
+          <div className="pt-5 px-5 -mx-5 w-1/2">
+            <h3 className="mb-2 sticky">Last Month</h3>
+            <TopSongs tracks={topTracks[0].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
+            <h3 className="mb-2">Last 6 Months</h3>
+            <TopSongs tracks={topTracks[1].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
+            <h3 className="mb-2">All Time</h3>
+            <TopSongs tracks={topTracks[2].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
+          </div>
 
-      <div className="pt-2 px-5 -mx-5 w-1/2">
-        <h3 className="mb-2 initial-click">Last Month</h3>
-        <TopSongs tracks={topTracks[0].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
-        <h3 className="mb-2">Last 6 Months</h3>
-        <TopSongs tracks={topTracks[1].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
-        <h3 className="mb-2">All Time</h3>
-        <TopSongs tracks={topTracks[2].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
+          <div className="w-1/2">
+            {currentTrack ? <TrackPreview track={currentTrack} getTrackDetails={getTrackDetails} accessToken={accessToken} /> : ''}
+          </div>
+          {/* <div> */}
+          {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
+          {/* </div> */}
+          {/* <Modal visible={true} /> */}
+        </div>
       </div>
-
-      <div className="w-1/2">
-        {currentTrack ? <TrackPreview track={currentTrack} getTrackDetails={getTrackDetails} accessToken={accessToken} /> : ''}
-      </div>
-      {/* <div> */}
-      {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
-      {/* </div> */}
-      {/* <Modal visible={true} /> */}
-    </div>
+    )
   }
 }
 
 
 
 const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
-  console.log('rendering TOP SONGS:');
   const currentAudio = useRef(null);
 
   function playAudio(track) {
@@ -126,8 +131,9 @@ const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
   }
 
   const transitions = useTransition(tracks, track => track.id, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 }
+    // from: { opacity: 0 },
+    // to: { opacity: 1 },
+    // enter: { opacity: 1 }
   })
 
   return (
@@ -231,7 +237,7 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
       }
       return completeName += ` ${artist.name}`
     }), '');
-    return <div className="sticky top-1/4 lg:top-20 md:m-2 lg:m-10 float-right lg:my-0">
+    return <div className="sticky top-1/4 lg:top-32 md:m-2 lg:m-10 float-right lg:my-0">
       <div className="">
         <animated.img src={images[0].url} alt={name} style={fadeIn} />
       </div>
