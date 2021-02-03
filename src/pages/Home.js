@@ -79,7 +79,7 @@ const Home = props => {
             <TopSongs tracks={topTracks[2].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
           </div>
 
-          <div className="w-1/2">
+          <div className="py-5 w-1/2">
             {currentTrack ? <TrackPreview track={currentTrack} getTrackDetails={getTrackDetails} accessToken={accessToken} /> : ''}
           </div>
           {/* <div> */}
@@ -159,7 +159,6 @@ const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
 
 
 const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
-  // console.log('track preview: ', track)
   let { id, preview_url } = track;
   const currentAudio = useRef(null);
 
