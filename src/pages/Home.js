@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import SpotifyService from '../SpotifyService';
 import './Home.scss';
 // import { Button } from '../components';
-// import { Modal } from '../components';
+import { Modal } from '../components';
 
 import { Header } from '../components';
 
@@ -85,7 +85,7 @@ const Home = props => {
           {/* <div> */}
           {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
           {/* </div> */}
-          {/* <Modal visible={true} /> */}
+          <Modal visible={true} />
         </div>
       </div>
     )
