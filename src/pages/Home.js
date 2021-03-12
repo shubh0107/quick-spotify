@@ -17,6 +17,7 @@ const Home = props => {
   const [accessToken, setAccessToken] = useLocalStorage('accessToken');
   const [topTracks, setTopTracks] = useState(null);
   const [currentTrack, setCurrentTrack] = useState(null);
+  const [modalVisibility, setModalVisibility] = useState(true);
   const spotify = useRef(null);
 
   const [openModal, setOpenModal] = useState(false);
@@ -85,7 +86,7 @@ const Home = props => {
           {/* <div> */}
           {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
           {/* </div> */}
-          <Modal visible={true} />
+          <Modal visible={modalVisibility} setModalVisibility={setModalVisibility} />
         </div>
       </div>
     )
