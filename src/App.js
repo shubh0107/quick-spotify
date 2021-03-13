@@ -1,20 +1,32 @@
 
 import './tailwind.output.css';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
 
 function App() {
   return (
     <div className="antialiased">
-      <Router>
-        <Route exact path="/">
-          <Login />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
+      <Router hashType="noslash">
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/home">
+            <Home />
+          </Route>
+          <Route>
+            {/* <Redirect to="/login" /> */}
+            <Login />
+          </Route>
+          {/* <Route exact path="*">
+            <Redirect to="/login" />
+          </Route> */}
+        </Switch>
       </Router>
     </div>
   )

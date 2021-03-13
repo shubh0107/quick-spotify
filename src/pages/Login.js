@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { parse, stringifyUrl, stringify } from 'query-string';
 import {
   AUTHORIZATION_URL,
@@ -17,6 +17,8 @@ const Login = props => {
   const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
   const [callingAuthApi, setCallingAuthApi] = useState(false);
   let history = useHistory();
+  // const location = useLocation();
+  // console.log('shubham login location: ', location)
   if (accessToken !== '') {
     history.push('/home');
   }
@@ -32,6 +34,7 @@ const Login = props => {
 
   useEffect(() => {
     const parsedUrl = parse(window.location.hash);
+    console.log('shubham parsed url: ', parsedUrl)
     if (parsedUrl.state === STATE) {
       if (parsedUrl.error) {
         setCallingAuthApi(false);
@@ -74,7 +77,7 @@ const Login = props => {
     )
   }
 
-  return '';
+    return '';
 
 }
 

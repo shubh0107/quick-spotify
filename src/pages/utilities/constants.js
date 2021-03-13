@@ -1,7 +1,8 @@
 export const CLIENT_ID = 'ef63912df461471e88ae3535565584b0';
 export const CODE_VERIFIER = 'pGORwWuRVw0Si4JE8u0tRzqUfv~v8FgOe5-FDThHxLg6~IgeNqMI8bH6rN4bUl8plxEJqE5uX1sOFF0qQC9AKFMmrFJq~B-rO.FSIRHHCWyOEsU72WuHmXv9ndTdYzxc';
 export const CODE_CHALLENGE = 'A8qIxXBySssf5hZDmqIhEGZs0o2CXMBplm30mJbogtw'
-export const REDIRECT_URI = 'http://localhost:3000/';
+// export const REDIRECT_URI = 'http://localhost:3000/#login';
+export const REDIRECT_URI = 'https://shubh0107.github.io/quick-spotify/#login';
 export const STATE = 'shubham0107';
 
 export const ACCESS_TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
