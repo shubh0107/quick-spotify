@@ -5,11 +5,11 @@ import { useHistory } from 'react-router-dom';
 import SpotifyService from '../SpotifyService';
 import './Home.scss';
 // import { Button } from '../components';
-import { Modal } from '../components';
+import { Header, Modal, SelectedTrack } from '../components';
 
-import { Header } from '../components';
+// import { useTransition, useSpring, animated } from 'react-spring';
 
-import { useTransition, useSpring, animated } from 'react-spring';
+import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
 
 const Home = props => {
 
@@ -18,6 +18,8 @@ const Home = props => {
   const [topTracks, setTopTracks] = useState(null);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [modalVisibility, setModalVisibility] = useState(true);
+  const [selectedTrack, setSelectedTrack] = useState(null);
+
   const spotify = useRef(null);
 
   const [openModal, setOpenModal] = useState(false);
@@ -68,26 +70,71 @@ const Home = props => {
   if (topTracks) {
     // return <div className="h-full grid grid-cols-2 place-items-auto bg-gray-900 text-white p-10">
     return (
-      <div>
-        <Header />
-        <div className="min-h-screen h-full flex justify-between bg-gray-900 text-white px-10 pb-10">
-          <div className="pt-5 px-5 -mx-5 w-1/2">
-            <h3 className="mb-2 sticky">Last Month</h3>
-            <TopSongs tracks={topTracks[0].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
-            <h3 className="mb-2">Last 6 Months</h3>
-            <TopSongs tracks={topTracks[1].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
-            <h3 className="mb-2">All Time</h3>
-            <TopSongs tracks={topTracks[2].items} setCurrentTrack={setCurrentTrack} getTrackDetails={getTrackDetails} />
-          </div>
+      <div className="relative">
+        <AnimateSharedLayout type="crossfade">
+          <Header />
 
-          <div className="py-5 w-1/2">
-            {currentTrack ? <TrackPreview track={currentTrack} getTrackDetails={getTrackDetails} accessToken={accessToken} /> : ''}
+          <div className="min-h-screen h-full flex justify-between bg-gray-900 text-white px-10 pb-10">
+            <motion.div
+              className="pt-5 px-5 -mx-5 w-1/2"
+              initial={false}
+              animate={{
+                opacity: selectedTrack ? 0 : 1,
+              }}
+            >
+              <h3 className="mb-2 sticky">Last Month</h3>
+              <TopSongs
+                tracks={topTracks[0].items}
+                currentTrack={currentTrack}
+                setCurrentTrack={setCurrentTrack}
+                getTrackDetails={getTrackDetails}
+                setSelectedTrack={setSelectedTrack}
+              />
+              <h3 className="mb-2">Last 6 Months</h3>
+              <TopSongs
+                tracks={topTracks[1].items}
+                currentTrack={currentTrack}
+                setCurrentTrack={setCurrentTrack}
+                getTrackDetails={getTrackDetails}
+                setSelectedTrack={setSelectedTrack}
+              />
+              <h3 className="mb-2">All Time</h3>
+              <TopSongs
+                tracks={topTracks[2].items}
+                currentTrack={currentTrack}
+                setCurrentTrack={setCurrentTrack}
+                getTrackDetails={getTrackDetails}
+                setSelectedTrack={setSelectedTrack}
+              />
+            </motion.div>
+
+            <div className="py-5 w-1/2">
+              <AnimatePresence>
+                {currentTrack ?
+                  <TrackPreview track={currentTrack}
+                    getTrackDetails={getTrackDetails}
+                    accessToken={accessToken}
+                    selectedTrack={selectedTrack}
+                  /> : ''
+                }
+              </AnimatePresence>
+            </div>
+            {/* <div> */}
+            {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
+            {/* </div> */}
+            <Modal visible={modalVisibility} setModalVisibility={setModalVisibility} />
           </div>
-          {/* <div> */}
-          {/* <Button onClick={() => setOpenModal(true)}>Open</Button> */}
-          {/* </div> */}
-          <Modal visible={modalVisibility} setModalVisibility={setModalVisibility} />
-        </div>
+          <AnimatePresence>
+            {selectedTrack ?
+              <SelectedTrack
+                selectedTrack={selectedTrack}
+                setSelectedTrack={setSelectedTrack}
+                accessToken={accessToken}
+              />
+              : ''
+            }
+          </AnimatePresence>
+        </AnimateSharedLayout>
       </div>
     )
   }
@@ -95,7 +142,7 @@ const Home = props => {
 
 
 
-const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
+const TopSongs = ({ tracks, currentTrack, setCurrentTrack, getTrackDetails, setSelectedTrack }) => {
   const currentAudio = useRef(null);
 
   function playAudio(track) {
@@ -128,30 +175,30 @@ const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
 
   function stopAudio(url) {
     // currentAudio.current.pause();
-    setCurrentTrack(null)
+    // setCurrentTrack(null)
   }
-
-  const transitions = useTransition(tracks, track => track.id, {
-    // from: { opacity: 0 },
-    // to: { opacity: 1 },
-    // enter: { opacity: 1 }
-  })
 
   return (
     <div className="grid grid-cols-5 lg:grid-cols-10 mb-5">
-      {transitions.map(({ item, props, key }) => {
-        const { id, name, album } = item;
+      {tracks.map(track => {
+        const { id, name, album } = track;
         const { images } = album;
         return (
-          <animated.div
-            style={props}
-            key={key}
-            className="z-0 transform ease-in-out transition hover:scale-150 hover:z-20 hover:shadow-lg"
-            onMouseEnter={e => playAudio(item)}
-            onMouseLeave={e => stopAudio(item)}
+          <motion.div
+            // layout
+            key={id}
+            // initial={{ opacity: 1 }}
+            // className="z-0 transform ease-in-out transition hover:scale-150 hover:z-20 hover:shadow-lg"
+            className="z-0 cursor-pointer"
+            // style={{ opacity: currentTrack ? 1 : 0 }}
+            onMouseEnter={e => playAudio(track)}
+            onMouseLeave={e => stopAudio(track)}
+            whileHover={{ scale: 1.5, zIndex: 2 }}
+            onClick={() => setSelectedTrack(track)}
+
           >
             <img src={images[0].url} alt="song-img" />
-          </animated.div>
+          </motion.div>
         )
       })}
     </div>
@@ -159,7 +206,7 @@ const TopSongs = ({ tracks, setCurrentTrack, getTrackDetails }) => {
 }
 
 
-const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
+const TrackPreview = ({ track, getTrackDetails, accessToken, selectedTrack }) => {
   let { id, preview_url } = track;
   const currentAudio = useRef(null);
 
@@ -173,7 +220,7 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
     function playAudio(url) {
       if (url) {
         currentAudio.current = new Audio(url);
-        currentAudio.current.play();
+        // currentAudio.current.play();
       } else {
         axios.get(`https://api.spotify.com/v1/tracks/${id}?market=from_token`, {
           headers: { 'Authorization': `Bearer ${accessToken}` },
@@ -195,7 +242,7 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
     }
 
     if (currentAudio.current) {
-      currentAudio.current.pause();
+      // currentAudio.current.pause();
     }
 
     playAudio(preview_url);
@@ -204,30 +251,13 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
       source.cancel('New track received.');
 
       if (currentAudio.current) {
-        currentAudio.current.pause();
+        // currentAudio.current.pause();
       }
     }
   }, [id, preview_url, getTrackDetails, accessToken, source]);
 
-  const fadeIn = useSpring({
-    from: { opacity: 0 },
-    to: { opacity: 1 },
-    config: {
-      duration: 300
-    }
-  })
-
-  const fadeOut = useSpring({
-    from: { opacity: 1 },
-    to: { opacity: 0 },
-    config: {
-      duration: 300
-    }
-  })
-
-
   if (track) {
-    const { name, album, artists } = track;
+    const { id, name, album, artists } = track;
     const { images } = album;
     const artistName = artists.reduce(((completeName, artist, index) => {
       if (index === artists.length - 1 && artists.length > 1) {
@@ -237,13 +267,61 @@ const TrackPreview = ({ track, getTrackDetails, accessToken }) => {
       }
       return completeName += ` ${artist.name}`
     }), '');
-    return <div className="sticky top-1/4 lg:top-32 md:m-2 lg:m-10 float-right lg:my-0">
-      <div className="">
-        <animated.img src={images[0].url} alt={name} style={fadeIn} />
-      </div>
-      <animated.h2 className="text-2xl mt-2 leading-tight" style={fadeIn}>{name}</animated.h2>
-      <animated.h3 className="text-sm italic" style={fadeIn}>{artistName}</animated.h3>
-    </div>
+    return (
+      <motion.div
+        className="sticky top-1/4 lg:top-32 md:m-2 lg:m-10 float-right lg:my-0"
+        initial={{ x: 500, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ opacity: 0 }}
+        // exit={{ scale: 0, opacity: 0, duration: 0.1 }}
+        // transition={{
+        //   exit: {
+        //     duration: 2
+        //   }
+        // }}
+        key={`current-track-main-div-${id}`}
+        layoutId={`selected-track-parent-${id}`}
+
+      >
+        <motion.div className="w-full z-10"
+          key={`small-preview-${id}`}
+          layoutId={`selected-track-image-${id}`}
+          animate={{ opacity: selectedTrack ? 0 : 1 }}
+        >
+          <img src={images[0].url} alt={name} />
+        </motion.div>
+        <div className="overflow-hidden mt-2">
+          <motion.div
+            initial={{ height: 0, y: -60 }}
+            animate={{
+              height: 'auto',
+              y: 0,
+              transition: {
+                delay: 0.3,
+                duration: 0.2,
+              }
+            }}
+          >
+            <motion.h2
+              className="inline-flex text-2xl leading-tight"
+              layoutId={`selected-track-name-${id}`}
+            >
+              {name}
+            </motion.h2>
+            <br />
+            <motion.h3
+              className="inline-flex text-sm italic"
+              layoutId={`selected-track-artist-name-${id}`}
+              transition={{
+                delay: 0.6
+              }}
+            >
+              {artistName}
+            </motion.h3>
+          </motion.div>
+        </div>
+      </motion.div>
+    )
   }
 
   return '';

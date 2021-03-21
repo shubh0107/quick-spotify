@@ -2,9 +2,6 @@ import { Button } from '../components'
 
 const Modal = ({ visible, setModalVisibility }) => {
 
-
-  console.log('show modal: ', visible);
-
   if (visible) {
     return (
       <div class="fixed z-10 inset-0 overflow-y-auto">
@@ -50,17 +47,17 @@ const Modal = ({ visible, setModalVisibility }) => {
               </h3>
                   <div class="mt-2">
                     <p class="text-sm text-white">
-                      Your top tracks are available on the left. Just hover over them to listen.  
+                      Your top tracks are available on the left. Just hover over them to listen.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
             <div class="bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <Button 
-              type="button" 
-              classes="w-full inline-flex justify-center border border-transparent px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={() => setModalVisibility(false)}
+              <Button
+                type="button"
+                classes="w-full inline-flex justify-center border border-transparent px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                onClick={() => setModalVisibility(false)}
               >
                 Got It
               </Button>
