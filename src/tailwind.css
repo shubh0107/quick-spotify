@@ -2,8 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 .login-bg {
-  background-image: url('./assets/patternpad.svg');
+  background-image: url("./assets/patternpad.svg");
 }
+
+/* .invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.invisible-scrollbar::-webkit-scrollbar-thumb {
+  background: #000;
+} */
+
+/* .home-container::-webkit-scrollbar {
+  background-color: black;
+  display: none;
+} */
