@@ -74,9 +74,11 @@ const Home = props => {
         <AnimateSharedLayout type="crossfade">
           <Header />
 
-          <div className="min-h-screen h-full flex justify-between bg-gray-900 text-white px-10 pb-10">
+          {/* <div className="min-h-screen h-full flex justify-between bg-gray-900 text-white px-10 pb-10"> */}
+          <div className="min-h-screen h-full grid grid-cols-2 gap-4 justify-items-center px-4 md:px-8 lg:px-10 pt-10 pb-10 bg-gray-900 text-white ">
             <motion.div
-              className="pt-5 px-5 -mx-5 w-1/2"
+              // className="pt-5 px-5 -mx-5 w-1/2"
+              // className="top-36"
               initial={false}
               animate={{
                 opacity: selectedTrack ? 0 : 1,
@@ -108,7 +110,9 @@ const Home = props => {
               />
             </motion.div>
 
-            <div className="py-5 w-1/2">
+            <div
+            // className="py-5 w-1/2"
+            >
               <AnimatePresence>
                 {currentTrack ?
                   <TrackPreview track={currentTrack}
@@ -269,16 +273,15 @@ const TrackPreview = ({ track, getTrackDetails, accessToken, selectedTrack }) =>
     }), '');
     return (
       <motion.div
-        className="sticky top-1/4 lg:top-32 md:m-2 lg:m-10 float-right lg:my-0"
+        // className="sticky top-1/4 lg:top-32 md:m-2 lg:m-10 float-right lg:my-0"
+        className="sticky top-36 mt-8"
         initial={{ x: 500, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ opacity: 0 }}
         // exit={{ scale: 0, opacity: 0, duration: 0.1 }}
-        // transition={{
-        //   exit: {
-        //     duration: 2
-        //   }
-        // }}
+        transition={{
+          // stiffness: 90
+        }}
         key={`current-track-main-div-${id}`}
         layoutId={`selected-track-parent-${id}`}
 

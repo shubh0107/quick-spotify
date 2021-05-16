@@ -38,6 +38,7 @@ module.exports = {
   variants: {
     extend: {
       zIndex: ['hover'],
+      animation: ['hover', 'group-hover']
     },
   },
   plugins: [],

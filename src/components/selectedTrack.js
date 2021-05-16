@@ -30,7 +30,7 @@ const SelectedTrack = ({ selectedTrack, setSelectedTrack, setCurrentTrack, acces
     // return () => {
     //   cleanup
     // }
-  }, [])
+  }, [artists])
 
 
   const artistName = artists.reduce(((completeName, artist, index) => {
@@ -44,24 +44,24 @@ const SelectedTrack = ({ selectedTrack, setSelectedTrack, setCurrentTrack, acces
 
   return (
     <motion.div
-      className="z-10 fixed top-16 w-full h-full p-8 bg-transparent text-white"
+      className="z-10 fixed top-36 w-full h-full px-8 bg-transparent text-white"
       layoutId={`selected-track-parent-${selectedTrack.id}`}
     >
       <Close
-        className="text-white w-6 h-6 float-right cursor-pointer -mt-4 right-2 fixed"
+        className="text-white w-6 h-6 float-right cursor-pointer -mt-16 right-2 fixed"
         onClick={() => { setSelectedTrack(null); }}
       />
 
-      <div className="grid grid-cols-2 gap-x-4">
+      <div className="grid grid-cols-2 gap-x-8 justify-items-stretch">
 
-        <motion.div className="w-full z-20"
+        <motion.div className="z-20 justify-self-center"
           key={`small-preview-${id}`}
           layoutId={`selected-track-image-${id}`}
         >
-          <img src={images[0].url} alt={name} className="w-full" />
+          <img src={images[0].url} alt={name} className="" />
         </motion.div>
 
-        <div className="px-4">
+        <div className="">
           <motion.h2
             className="inline-flex text-4xl leading-tight"
             layoutId={`selected-track-name-${id}`}
@@ -150,8 +150,7 @@ const Track = ({ track, i }) => {
       animate="visible"
       variants={variants}
       exit="hidden"
-      key={`{$name}-${i}`
-      }
+      key={`{$name}-${i}`}
       style={{ zIndex: 10 - i, paddingTop: i === 0 ? 0 : '' }}
     >
       <motion.div className="w-10 h-10">
