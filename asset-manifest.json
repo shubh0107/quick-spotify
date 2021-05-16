@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/quick-spotify/static/css/main.4ab7cbaf.chunk.css",
-    "main.js": "/quick-spotify/static/js/main.fdee0b4d.chunk.js",
-    "main.js.map": "/quick-spotify/static/js/main.fdee0b4d.chunk.js.map",
+    "main.css": "/quick-spotify/static/css/main.e4204bfd.chunk.css",
+    "main.js": "/quick-spotify/static/js/main.5553cda8.chunk.js",
+    "main.js.map": "/quick-spotify/static/js/main.5553cda8.chunk.js.map",
     "runtime-main.js": "/quick-spotify/static/js/runtime-main.9c61f94d.js",
     "runtime-main.js.map": "/quick-spotify/static/js/runtime-main.9c61f94d.js.map",
     "static/js/2.40507004.chunk.js": "/quick-spotify/static/js/2.40507004.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.fb3b53d9.chunk.js": "/quick-spotify/static/js/3.fb3b53d9.chunk.js",
     "static/js/3.fb3b53d9.chunk.js.map": "/quick-spotify/static/js/3.fb3b53d9.chunk.js.map",
     "index.html": "/quick-spotify/index.html",
-    "static/css/main.4ab7cbaf.chunk.css.map": "/quick-spotify/static/css/main.4ab7cbaf.chunk.css.map",
+    "static/css/main.e4204bfd.chunk.css.map": "/quick-spotify/static/css/main.e4204bfd.chunk.css.map",
     "static/js/2.40507004.chunk.js.LICENSE.txt": "/quick-spotify/static/js/2.40507004.chunk.js.LICENSE.txt",
     "static/media/music.acbb4bbf.svg": "/quick-spotify/static/media/music.acbb4bbf.svg",
     "static/media/tailwind.output.css": "/quick-spotify/static/media/patternpad.4a073075.svg"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.9c61f94d.js",
     "static/js/2.40507004.chunk.js",
-    "static/css/main.4ab7cbaf.chunk.css",
-    "static/js/main.fdee0b4d.chunk.js"
+    "static/css/main.e4204bfd.chunk.css",
+    "static/js/main.5553cda8.chunk.js"
   ]
 }
