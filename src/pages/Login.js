@@ -11,14 +11,19 @@ import {
 import useLocalStorage from '../hooks/useLocalStorage';
 import { Button } from '../components';
 import { ReactComponent as Music } from '../assets/music.svg';
+import { useSpotify, SPOTIFY_ACTIONS } from '../spotifyContext';
 
 const Login = props => {
-  const [userData, setUserData] = useState(undefined);
-  const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+  // const [userData, setUserData] = useState(undefined);
+  // const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+
+
+  const [{ accessToken }, dispatch] = useSpotify();
+
   const [callingAuthApi, setCallingAuthApi] = useState(false);
   let history = useHistory();
-  // const location = useLocation();
-  // console.log('shubham login location: ', location)
+
+
   if (accessToken !== '') {
     history.push('/home');
   }
@@ -40,22 +45,26 @@ const Login = props => {
         setCallingAuthApi(false);
       } else {
         let accessToken = parsedUrl.access_token;
-        setAccessToken(accessToken);
+        // setAccessToken(accessToken);
+        dispatch({
+          type: SPOTIFY_ACTIONS.setAccessToken,
+          payload: accessToken
+        })
       }
     } else {
       // setCallingAuthApi(false);
     }
-  }, [setAccessToken, setCallingAuthApi]);
+  }, [setCallingAuthApi]);
 
 
-  function getAccessToken(queryForToken) {
-    axios.post(ACCESS_TOKEN_ENDPOINT, stringify(queryForToken)).then(res => {
-      setAccessToken(res.data.access_token);
-      // setIsAuthenticated(res.data);
-    }).catch(err => {
-      console.log('ERROR: ', err);
-    })
-  }
+  // function getAccessToken(queryForToken) {
+  //   axios.post(ACCESS_TOKEN_ENDPOINT, stringify(queryForToken)).then(res => {
+  //     setAccessToken(res.data.access_token);
+  //     // setIsAuthenticated(res.data);
+  //   }).catch(err => {
+  //     console.log('ERROR: ', err);
+  //   })
+  // }
 
   if (accessToken === '') {
     return (

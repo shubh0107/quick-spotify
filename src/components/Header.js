@@ -3,7 +3,7 @@ import { Button } from '../components';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { useHistory } from 'react-router-dom';
 import SpotifyService from '../SpotifyService';
-
+import { useSpotify, SPOTIFY_ACTIONS } from '../spotifyContext';
 
 
 
@@ -20,7 +20,8 @@ const Header = props => {
     // })
   }
 
-  const [accessToken, setAccessToken] = useLocalStorage('accessToken');
+  // const [accessToken, setAccessToken] = useLocalStorage('accessToken');
+  const [{ accessToken }, dispatch] = useSpotify();
   const [currentUser, setCurrentUser] = useState(accessToken ? () => {
     getUserDetails(accessToken).then(userDetails => {
       return userDetails;
@@ -46,7 +47,11 @@ const Header = props => {
   }, [accessToken])
 
   async function logout() {
-    await setAccessToken('');
+    // await setAccessToken('');
+    await dispatch({
+      type: SPOTIFY_ACTIONS.setAccessToken,
+      payload: ''
+    });
     history.push('/');
   }
 
