@@ -1,26 +1,24 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SpotifyService from '../SpotifyService';
-
+import { SPOTIFY_ACTIONS, useSpotify } from '../spotifyContext';
 
 const Close = props => {
   return <svg {...props} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
 }
 
-const SelectedTrack = ({ selectedTrack, setSelectedTrack, setCurrentTrack, accessToken }) => {
+const SelectedTrack = ({ selectedTrack }) => {
+  const [{ accessToken }, dispatch] = useSpotify();
+  const [artistTracks, setArtistTracks] = useState(null);
   const spotify = useRef(null);
   spotify.current = new SpotifyService(accessToken);
+
+
   const { id, album, name, artists } = selectedTrack;
-  const [artistTracks, setArtistTracks] = useState(null);
   const { images } = album;
-
-
-  console.log('shubham: selected track: ', selectedTrack)
-
 
   useEffect(() => {
     spotify.current.spotifyApi.getArtistTopTracks(artists[0].id, 'IN').then(resp => {
-      console.log('shubham TRACKS RESPONSE: ', resp);
       if (resp.tracks)
         setArtistTracks(resp.tracks);
     }).catch(err => {
@@ -49,7 +47,11 @@ const SelectedTrack = ({ selectedTrack, setSelectedTrack, setCurrentTrack, acces
     >
       <Close
         className="text-white w-6 h-6 float-right cursor-pointer -mt-16 right-2 fixed"
-        onClick={() => { setSelectedTrack(null); }}
+        // onClick={() => { setSelectedTrack(null); }}
+        onClick={() => dispatch({
+          type: SPOTIFY_ACTIONS.setSelectedTrack,
+          payload: null
+        })}
       />
 
       <div className="grid grid-cols-2 gap-x-8 justify-items-stretch">
@@ -123,21 +125,15 @@ const variants = {
   }),
 }
 
-const ArtistTracks = ({ tracks }) => {
-
-
-  return (
-    <motion.ul className="flex flex-0 flex-col">
-      <AnimatePresence>
-        {tracks.map((track, index) => (
-          <Track track={track} i={index} />
-        ))}
-      </AnimatePresence>
-    </motion.ul>
-  )
-}
-
-
+const ArtistTracks = ({ tracks }) => (
+  <motion.ul className="flex flex-0 flex-col">
+    <AnimatePresence>
+      {tracks.map((track, index) => (
+        <Track track={track} i={index} />
+      ))}
+    </AnimatePresence>
+  </motion.ul>
+)
 
 const Track = ({ track, i }) => {
   const { name, album: { images } } = track;

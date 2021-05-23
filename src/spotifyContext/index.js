@@ -49,10 +49,6 @@ function useSpotifyReducerWithLocalStorage(state, action) {
   const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
 
   const spotifyReducer = React.useCallback((state, action) => {
-    console.log('shubham : ', {
-      action,
-      state
-    })
     switch (action.type) {
       case SPOTIFY_ACTIONS.setAccessToken:
         setAccessToken(action.payload);
