@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
 import { parse, stringifyUrl, stringify } from 'query-string';
@@ -37,15 +37,13 @@ const Login = props => {
     window.location.href = finalAuthUrl;
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const parsedUrl = parse(window.location.hash);
-    console.log('shubham parsed url: ', parsedUrl)
     if (parsedUrl.state === STATE) {
       if (parsedUrl.error) {
         setCallingAuthApi(false);
       } else {
         let accessToken = parsedUrl.access_token;
-        // setAccessToken(accessToken);
         dispatch({
           type: SPOTIFY_ACTIONS.setAccessToken,
           payload: accessToken
@@ -54,7 +52,7 @@ const Login = props => {
     } else {
       // setCallingAuthApi(false);
     }
-  }, [setCallingAuthApi]);
+  }, [dispatch, setCallingAuthApi]);
 
 
   // function getAccessToken(queryForToken) {
