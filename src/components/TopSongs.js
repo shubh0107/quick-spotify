@@ -8,16 +8,16 @@ export default function TopSongs({ tracks, getTrackDetails }) {
   const currentAudio = React.useRef(null);
 
   function playAudio(track) {
-    // let isPreviousAudioPlaying = currentAudio.current.currentTime > 0 &&
-    //  !currentAudio.current.paused && !currentAudio.current.ended && currentAudio.current.readyState > 2;
+    let isPreviousAudioPlaying = currentAudio.current && currentAudio.current.currentTime > 0 &&
+     !currentAudio.current.paused && !currentAudio.current.ended && currentAudio.current.readyState > 2;
 
-    // if (isPreviousAudioPlaying) {
-    //   currentAudio.current.pause();
-    // }
+    if (isPreviousAudioPlaying) {
+      currentAudio.current.pause();
+    }
 
-    // if (currentAudio.current && currentAudio.current.currentTime > 0) {
-    //   currentAudio.current.pause();
-    // }
+    if (currentAudio.current && currentAudio.current.currentTime > 0) {
+      currentAudio.current.pause();
+    }
     // setCurrentTrack(track);
     dispatch({
       type: SPOTIFY_ACTIONS.setCurrentTrack,
@@ -26,21 +26,21 @@ export default function TopSongs({ tracks, getTrackDetails }) {
     let { id, preview_url } = track;
 
     if (preview_url) {
-      // currentAudio.current = new Audio(preview_url);
-      // currentAudio.current.play();
+      currentAudio.current = new Audio(preview_url);
+      currentAudio.current.play();
     } else {
-      // getTrackDetails(`${id}?market=from_token`).then(trackDetails => {
-      //   console.log('track data: ', trackDetails);
-      //   // currentAudio.current = new Audio(trackDetails.preview_url);
-      //   // currentAudio.current.play();
-      // }).catch(err => {
-      //   console.log('error: ', err);
-      // })
+      getTrackDetails(`${id}?market=from_token`).then(trackDetails => {
+        console.log('track data: ', trackDetails);
+        currentAudio.current = new Audio(trackDetails.preview_url);
+        currentAudio.current.play();
+      }).catch(err => {
+        console.log('error: ', err);
+      })
     }
   }
 
   function stopAudio(url) {
-    // currentAudio.current.pause();
+    currentAudio.current.pause();
     // setCurrentTrack(null)
   }
 
