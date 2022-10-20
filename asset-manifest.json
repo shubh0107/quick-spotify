@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/quick-spotify/static/css/main.a00f33bb.chunk.css",
+    "main.js": "/quick-spotify/static/js/main.50fafd01.chunk.js",
+    "main.js.map": "/quick-spotify/static/js/main.50fafd01.chunk.js.map",
+    "runtime-main.js": "/quick-spotify/static/js/runtime-main.f6567b20.js",
+    "runtime-main.js.map": "/quick-spotify/static/js/runtime-main.f6567b20.js.map",
+    "static/js/2.de2ee29c.chunk.js": "/quick-spotify/static/js/2.de2ee29c.chunk.js",
+    "static/js/2.de2ee29c.chunk.js.map": "/quick-spotify/static/js/2.de2ee29c.chunk.js.map",
+    "static/js/3.59e51d01.chunk.js": "/quick-spotify/static/js/3.59e51d01.chunk.js",
+    "static/js/3.59e51d01.chunk.js.map": "/quick-spotify/static/js/3.59e51d01.chunk.js.map",
+    "index.html": "/quick-spotify/index.html",
+    "static/css/main.a00f33bb.chunk.css.map": "/quick-spotify/static/css/main.a00f33bb.chunk.css.map",
+    "static/js/2.de2ee29c.chunk.js.LICENSE.txt": "/quick-spotify/static/js/2.de2ee29c.chunk.js.LICENSE.txt",
+    "static/media/music.acbb4bbf.svg": "/quick-spotify/static/media/music.acbb4bbf.svg",
+    "static/media/tailwind.output.css": "/quick-spotify/static/media/patternpad.4a073075.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f6567b20.js",
+    "static/js/2.de2ee29c.chunk.js",
+    "static/css/main.a00f33bb.chunk.css",
+    "static/js/main.50fafd01.chunk.js"
+  ]
+}
